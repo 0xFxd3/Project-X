@@ -20,6 +20,43 @@ namespace RepMeFixed.Window
         public NewDashboard()
         {
             InitializeComponent();
+
+            string broker = "abc99b064c47455f930ed9e2a66efd13.s1.eu.hivemq.cloud";
+            int port = 8883;
+            string username = "admin";
+            string password = "CoolAdminPassword123409";
+            string clientId = Guid.NewGuid().ToString();
+
+            try
+            {
+                client = new MqttClient(broker, port, true, null, null, MqttSslProtocols.TLSv1_2, ValidateServerCertificate);
+                client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
+
+                client.Connect(clientId, username, password);
+                Windows_Message("Project x", "✅ Connected to HiveMQ Cloud");
+
+                // Subscribe to 4 topics so that we can listen in on what is going on :))))
+                client.Subscribe(new string[]
+                {
+                    "sensor/temperature",
+                    "sensor/oxygen",
+                    "sensor/bpm",
+                    "sensor/name"
+                },
+                new byte[]
+                {
+                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE,
+                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE,
+                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE,
+                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE
+                });
+
+                Windows_Message("Project x", "📡 Subscribed to sensor topics");
+            }
+            catch (Exception ex)
+            {
+                Windows_Message("Project x", "❌ Connection failed: " + ex.Message);
+            }
         }
 
         private void selection()
@@ -222,51 +259,37 @@ namespace RepMeFixed.Window
         private MqttClient client;
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string broker = "abc99b064c47455f930ed9e2a66efd13.s1.eu.hivemq.cloud";
-            int port = 8883;
-            string username = "admin";
-            string password = "CoolAdminPassword123409"; 
-            string clientId = Guid.NewGuid().ToString();
 
-            try
-            {
-                client = new MqttClient(broker, port, true, null, null, MqttSslProtocols.TLSv1_2, ValidateServerCertificate);
-                client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
-
-                client.Connect(clientId, username, password);
-                Windows_Message("Project x", "✅ Connected to HiveMQ Cloud");
-
-                // Subscribe to 4 topics so that we can listen in on what is going on :))))
-                client.Subscribe(new string[]
-                {
-                    "sensor/temperature",
-                    "sensor/oxygen",
-                    "sensor/bpm",
-                    "sensor/name"
-                },
-                new byte[]
-                {
-                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE,
-                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE,
-                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE,
-                    MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE
-                });
-
-                Windows_Message("Project x", "📡 Subscribed to sensor topics");
-            }
-            catch (Exception ex)
-            {
-                Windows_Message("Project x", "❌ Connection failed: " + ex.Message);
-            }
         }
 
         private void button2_Click_1(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
         {
             SendMqttMessage("sensor/temperature", "100");
             SendMqttMessage("sensor/oxygen", "50");
             SendMqttMessage("sensor/bpm", "68");
             SendMqttMessage("sensor/name", "Jeffrey");
+        }
 
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            SendMqttMessage("sensor/temperature", "75");
+            SendMqttMessage("sensor/oxygen", "90");
+            SendMqttMessage("sensor/bpm", "98");
+            SendMqttMessage("sensor/name", "Michael");
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            SendMqttMessage("sensor/temperature", "48");
+            SendMqttMessage("sensor/oxygen", "80");
+            SendMqttMessage("sensor/bpm", "38");
+            SendMqttMessage("sensor/name", "Karen");
         }
     }
 }
