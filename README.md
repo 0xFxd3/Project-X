@@ -1,6 +1,6 @@
 # Project X
 
-![Project X Dashboard Preview](https://i.imgur.com/xflDNnN.png)
+![Project X Dashboard Preview](https://i.imgur.com/lEZcKRz.png)
 
 **Project X** is a real-time health monitoring application developed in **C#** using **MQTT** as part of a Coventry University coursework. It connects securely to the **HiveMQ Cloud Broker** to receive and display patient health data such as temperature, oxygen levels, heart rate (BPM), and patient names. The dashboard presents a user-friendly UI for monitoring real-time values, with simulated data functionality for testing.
 
