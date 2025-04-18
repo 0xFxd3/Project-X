@@ -40,14 +40,6 @@ These topics were carefully chosen to simulate key health indicators typically m
 
 ---
 
-## 📷 App Preview
-
-Here’s a look at the dashboard in action:
-
-![Dashboard Preview](https://i.imgur.com/xflDNnN.png)
-
----
-
 ## ⚙️ How to Use
 
 1. Clone the repository:
